@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
-def GitBranch = "${Git_Branch}"
+def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 pipeline {
     agent any
      parameters { 
-         string(name: 'Git_Branch', defaultValue: 'master', description: 'Branch Name')
+         string(name: 'CODE_BRANCH', defaultValue: 'master', description: 'Branch Name')
      }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
           steps {
               script {
                   def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
-                  echo "${GitBranch}"
+                  echo "${CODE_BRANCH}"
                   echo "${GIT_BRANCH_LOCAL}"
                   echo "${GIT_URL}"
                   git branch: "${GIT_BRANCH_LOCAL}",
