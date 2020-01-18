@@ -2,14 +2,18 @@
 
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 def PUB1(){
-    stage('PUB1_DEPLOY') {
-         echo "${PUB1}"
+    node {
+        stage('PUB1_DEPLOY') {
+            echo "${PUB1}"
+        }
     }
 }
 
 def PUB2(){
-    stage('PUB2_DEPLOY') {
-         echo "${PUB2}"
+    node {
+        stage('PUB2_DEPLOY') {
+            echo "${PUB2}"
+        }
     }
 }
 
