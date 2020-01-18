@@ -11,7 +11,7 @@ def PUB1(){
 
 def PUB2(){
     node {
-        stage (STOP_HTTPD) {
+        stage ('STOP_HTTPD') {
             dir ('../Test') {
                 ansiblePlaybook(
                     playbook: 'playbook.yaml',
