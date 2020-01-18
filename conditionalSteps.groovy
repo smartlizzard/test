@@ -4,8 +4,7 @@ def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 def CACHE_CLEAR (){
         stage ('CACHE_CLEAR') {
-            dir ('../Test') {
-                ansiColor('xterm') {
+             ansiColor('xterm') {
                     ansiblePlaybook(
                         playbook: 'playbook.yaml',
                         inventory: 'inventory.ini',
@@ -15,7 +14,6 @@ def CACHE_CLEAR (){
                         colorized: true
                      )
                 }
-            }
     }
 }
 def PUB1(){
