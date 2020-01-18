@@ -1,22 +1,8 @@
---- 
-- 
-  become: true
-  hosts: all
-  tasks: 
-    - 
-      vars: 
-        empty_dirs: 
-          - /tmp/test2
-          - /tmp/test3
-    - 
-      debug: "msg=\"{{ lookup('env','BUILD_TAG') }}\""
-      name: "Display the config"
-    - 
-      name: "cache clear"
-      shell: "rm -rf /tmp/test/*"
-    - 
-      file: "state=absent path={{ item }}"
-      with_items: empty_dirs
-    - 
-      file: "state=directory path={{ item }}"
-      with_items: empty_dirs
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Display the config
+      debug: msg="{{ lookup('env','BUILD_TAG') }}"
+    - name: cache clear
+      shell: "rm -rf /tmp/test2/*"
