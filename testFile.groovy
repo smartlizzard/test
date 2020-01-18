@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def GitBranch = "${Git_Branch"
+def GitBranch = "${Git_Branch}"
 
 pipeline {
     agent any
