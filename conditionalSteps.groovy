@@ -79,9 +79,7 @@ pipeline {
         }
         stage('DEPLOY') {
             steps {
-                steps{
-                   PUB1()
-                }
+               PUB1()
             }
         }
     }
