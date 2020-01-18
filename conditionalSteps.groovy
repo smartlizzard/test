@@ -15,7 +15,7 @@ def PUB2(){
             echo "${PUB2}"
             sh 'printenv'
         }
-        dir ("${env.WORKSPACE}") {
+        dir ('../Test') {
         ansiblePlaybook(
             playbook: 'playbook.yaml',
             inventory: 'inventory.ini',
