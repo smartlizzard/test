@@ -1,11 +1,11 @@
 #!/usr/bin/env groovy
 
-def GitBranch
+def GitBranch = "${Git_Branch"
 
 pipeline {
     agent any
      parameters { 
-         string(name: 'GitBranch', defaultValue: 'master', description: 'Branch Name')
+         string(name: 'Git_Branch', defaultValue: 'master', description: 'Branch Name')
      }
 
     stages {
