@@ -37,6 +37,7 @@ pipeline {
         stage('CleanWorkspace') {
             steps {
                 cleanWs()
+                sh 'printenv'
             }
         }
 
