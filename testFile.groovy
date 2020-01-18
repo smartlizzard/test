@@ -1,9 +1,12 @@
 #!/usr/bin/env groovy
 
-def GitBranch = 'master'
+
 
 pipeline {
     agent any
+     parameters { 
+         string(name: 'GitBranch', defaultValue: 'master', description: 'Branch Name')
+     }
 
     stages {
         stage('CleanWorkspace') {
