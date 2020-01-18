@@ -18,7 +18,7 @@ pipeline {
         stage('Checkout') {
           steps {
               script {
-                  def GIT_BRANCH_LOCAL = sh (script: "echo $Branch | sed -e 's|origin/||g'",returnStdout: true).trim()
+                  def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
                   echo "${GitBranch}"
                   echo "${GIT_BRANCH_LOCAL}"
                   echo "${GIT_URL}"
