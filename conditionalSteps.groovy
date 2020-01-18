@@ -14,11 +14,12 @@ def PUB2(){
         stage('PUB2_DEPLOY') {
             echo "${PUB2}"
         }
-        ansiblePlaybook( 
-        playbook: 'playbook.yaml',
-        inventory: 'inventory.ini',
-        limit: 'PUB2',
-        credentialsId: 'ansibleDeploy'
+        ansiblePlaybook(
+            playbook: 'playbook.yaml',
+            inventory: 'inventory.ini',
+            limit: 'PUB2',
+            credentialsId: 'ansibleDeploy'
+            )
     }
 }
 
