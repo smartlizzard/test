@@ -2,67 +2,14 @@
 
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
-def CACHE_CLEAR (){
-    stage ('CACHE_CLEAR') {
-        ansiColor('xterm') {
-           ansiblePlaybook(
-               playbook: 'playbook.yaml',
-               inventory: 'inventory.ini',
-               limit: "${PUBLISHER}",
-               credentialsId: 'ansibleDeploy',
-               disableHostKeyChecking: true,
-               colorized: true
-            )
-        }
-    }
-}
-def PUB1(){
-    stage('PUB1_DEPLOY') {
-        echo "${PUB1}"
-    }
-}
-
-def PUB2(){
-    stage ('STOP_HTTPD') {
-        ansiColor('xterm') {
-            ansiblePlaybook(
-                playbook: 'service.yaml',
-                inventory: 'inventory.ini',
-                limit: "${PUBLISHER}",
-                credentialsId: 'ansibleDeploy',
-                disableHostKeyChecking: true,
-                extras: '-e status="stop"',
-                colorized: true
-             )
-        }
-    }
-    stage ('PUB2_DEPLOY') {
-        echo "${PUB2}"
-    }
-    stage ('START_HTTPD') {
-        ansiColor('xterm') {
-            ansiblePlaybook(
-                playbook: 'service.yaml',
-                inventory: 'inventory.ini',
-                limit: "${PUBLISHER}",
-                credentialsId: 'ansibleDeploy',
-                disableHostKeyChecking: true,
-                extras: '-e status="start"',
-                colorized: true
-             )
-        }
-    }
-}
-
-
 pipeline {
     agent any
     options {
         buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
     }
     parameters { 
-        string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name')
-        choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On')
+        string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name').trim()
+        choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On').trim()
     }
 
     stages {
@@ -155,15 +102,14 @@ pipeline {
                 }
             }
         }
-        
+        */
         stage('DEPLOY') {
             steps {
                 script {
-                    echo "${PUBLISHER}"
-                    CACHE_CLEAR()
+                    load "${PUBLISHER}.groovy"
                     "${PUBLISHER}"()
                 }
             }
-        }*/
+        }
     }
 }
