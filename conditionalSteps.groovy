@@ -3,59 +3,51 @@
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 def CACHE_CLEAR (){
-        stage ('CACHE_CLEAR') {
-             ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: 'playbook.yaml',
-                        inventory: 'inventory.ini',
-                        limit: "${PUBLISHER}",
-                        credentialsId: 'ansibleDeploy',
-                        disableHostKeyChecking: true,
-                        colorized: true
-                     )
-                }
+    stage ('CACHE_CLEAR') {
+        ansiColor('xterm') {
+           ansiblePlaybook(
+               playbook: 'playbook.yaml',
+               inventory: 'inventory.ini',
+               limit: "${PUBLISHER}",
+               credentialsId: 'ansibleDeploy',
+               disableHostKeyChecking: true,
+               colorized: true
+            )
+        }
     }
 }
 def PUB1(){
-    node {
-        stage('PUB1_DEPLOY') {
-            echo "${PUB1}"
-        }
+    stage('PUB1_DEPLOY') {
+        echo "${PUB1}"
     }
 }
 
 def PUB2(){
-    node {
-        stage ('STOP_HTTPD') {
-            dir ('../Test') {
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: 'playbook.yaml',
-                        inventory: 'inventory.ini',
-                        limit: "${PUBLISHER}",
-                        credentialsId: 'ansibleDeploy',
-                        disableHostKeyChecking: true,
-                        colorized: true
-                     )
-                }
-            }
+    stage ('STOP_HTTPD') {
+        ansiColor('xterm') {
+            ansiblePlaybook(
+                playbook: 'playbook.yaml',
+                inventory: 'inventory.ini',
+                limit: "${PUBLISHER}",
+                credentialsId: 'ansibleDeploy',
+                disableHostKeyChecking: true,
+                colorized: true
+             )
         }
-        stage ('PUB2_DEPLOY') {
-            echo "${PUB2}"
-        }
-        stage ('START_HTTPD') {
-            dir ('../Test') {
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: 'playbook.yaml',
-                        inventory: 'inventory.ini',
-                        limit: "${PUBLISHER}",
-                        credentialsId: 'ansibleDeploy',
-                        disableHostKeyChecking: true,
-                        colorized: true
-                     )
-                }
-            }
+    }
+    stage ('PUB2_DEPLOY') {
+        echo "${PUB2}"
+    }
+    stage ('START_HTTPD') {
+        ansiColor('xterm') {
+            ansiblePlaybook(
+                playbook: 'playbook.yaml',
+                inventory: 'inventory.ini',
+                limit: "${PUBLISHER}",
+                credentialsId: 'ansibleDeploy',
+                disableHostKeyChecking: true,
+                colorized: true
+             )
         }
     }
 }
