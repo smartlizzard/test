@@ -3,4 +3,4 @@
   become: yes
   tasks:
     - name: HTTPD SERVICE
-      shell: "echo {{status}} >> /tmp/test"
+      shell: "echo {{status}} >> /tmp/test/testfile"
