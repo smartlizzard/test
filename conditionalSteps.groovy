@@ -21,7 +21,7 @@ def PUB2(){
             inventory: 'inventory.ini',
             limit: 'PUB2',
             credentialsId: 'ansibleDeploy',
-            hostKeyChecking: 'false'
+            disableHostKeyChecking: true
             )
         }
     }
