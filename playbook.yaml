@@ -6,4 +6,5 @@
       debug: msg="{{ lookup('env','BUILD_TAG') }}"
     - name: cache clear
       shell: "rm -rf /tmp/test2/*"
-      warn: false
+      args:
+        warn: false
