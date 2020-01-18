@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-
+def GitBranch
 
 pipeline {
     agent any
