@@ -17,7 +17,7 @@ def PUB2(){
                     ansiblePlaybook(
                         playbook: 'playbook.yaml',
                         inventory: 'inventory.ini',
-                        limit: 'PUB2',
+                        limit: "${PUBLISHER}",
                         credentialsId: 'ansibleDeploy',
                         disableHostKeyChecking: true,
                         colorized: true
