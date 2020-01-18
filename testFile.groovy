@@ -19,8 +19,9 @@ pipeline {
           steps {
               script {
                   echo "${GitBranch}"
+                  echo "${GIT_BRANCH}"
                   echo "${GIT_URL}"
-                  git branch: "${GitBranch}",
+                  git branch: "${GIT_BRANCH}",
                       credentialsId: 'GitHub',
                       url: "${GIT_URL}"
                   }
