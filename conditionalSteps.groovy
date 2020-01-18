@@ -26,11 +26,12 @@ def PUB2(){
     stage ('STOP_HTTPD') {
         ansiColor('xterm') {
             ansiblePlaybook(
-                playbook: 'playbook.yaml',
+                playbook: 'service.yaml',
                 inventory: 'inventory.ini',
                 limit: "${PUBLISHER}",
                 credentialsId: 'ansibleDeploy',
                 disableHostKeyChecking: true,
+                extras: '-e status="stop"',
                 colorized: true
              )
         }
@@ -41,11 +42,12 @@ def PUB2(){
     stage ('START_HTTPD') {
         ansiColor('xterm') {
             ansiblePlaybook(
-                playbook: 'playbook.yaml',
+                playbook: 'service.yaml',
                 inventory: 'inventory.ini',
                 limit: "${PUBLISHER}",
                 credentialsId: 'ansibleDeploy',
                 disableHostKeyChecking: true,
+                extras: '-e status="start"',
                 colorized: true
              )
         }
