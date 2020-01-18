@@ -11,9 +11,14 @@ def PUB1(){
 
 def PUB2(){
     node {
-        stage('PUB2_DEPLOY') {
+        stage ('PUB2_DEPLOY') {
             echo "${PUB2}"
             pwd()
+        }
+        stage ('Source Code Checkout') {
+            git branch: "${GIT_BRANCH_LOCAL}",
+                credentialsId: 'GitHub',
+                url: "${GIT_URL}"
         }
         ansiblePlaybook(
             playbook: 'playbook.yaml',
