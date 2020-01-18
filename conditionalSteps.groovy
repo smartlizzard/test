@@ -36,6 +36,7 @@ pipeline {
     agent any
      parameters { 
          string(name: 'CODE_BRANCH', defaultValue: 'master', description: 'Branch Name')
+         choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2'], description: 'Deploy On')
      }
 
     stages {
