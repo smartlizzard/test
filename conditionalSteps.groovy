@@ -3,21 +3,13 @@
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 def PUB1(){
     stage('PUB1_DEPLOY') {
-        steps {
-            script {
-                echo "${PUB1}"
-            }
-        }
-    } 
+         echo "${PUB1}"
+    }
 }
 
 def PUB2(){
     stage('PUB2_DEPLOY') {
-        steps {
-            script {
-                echo "${PUB2}"
-            }
-        }
+         echo "${PUB2}"
     }
 }
 
