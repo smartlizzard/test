@@ -18,7 +18,8 @@ def PUB2(){
                     inventory: 'inventory.ini',
                     limit: 'PUB2',
                     credentialsId: 'ansibleDeploy',
-                    disableHostKeyChecking: true
+                    disableHostKeyChecking: true,
+                    colorized: true
                 )
             }
         }
