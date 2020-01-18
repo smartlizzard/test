@@ -3,14 +3,14 @@
   become: yes
   tasks:
      vars:
-     empty_dirs:
-       - "/tmp/test2"
-       - "/tmp/test3"
-    - name: Display the config
-      debug: msg="{{ lookup('env','BUILD_TAG') }}"
-    - name: cache clear
-      shell: "rm -rf /tmp/test/*"
-    - file: state=absent path={{ item }}
-      with_items: empty_dirs
-    - file: state=directory path={{ item }}
-      with_items: empty_dirs
+       empty_dirs:
+         - "/tmp/test2"
+         - "/tmp/test3"
+     - name: Display the config
+       debug: msg="{{ lookup('env','BUILD_TAG') }}"
+     - name: cache clear
+       shell: "rm -rf /tmp/test/*"
+     - file: state=absent path={{ item }}
+       with_items: empty_dirs
+     - file: state=directory path={{ item }}
+       with_items: empty_dirs
