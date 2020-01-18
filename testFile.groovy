@@ -15,13 +15,14 @@ pipeline {
             }
         }
 
-        stage('Cloning BuildCode') {
+        stage('Checkout') {
           steps {
               script {
+                  def GIT_BRANCH_LOCAL = sh (script: "echo $Branch | sed -e 's|origin/||g'",returnStdout: true).trim()
                   echo "${GitBranch}"
-                  echo "${GIT_BRANCH}"
+                  echo "${GIT_BRANCH_LOCAL}"
                   echo "${GIT_URL}"
-                  git branch: "${GIT_BRANCH}",
+                  git branch: "${GIT_BRANCH_LOCAL}",
                       credentialsId: 'GitHub',
                       url: "${GIT_URL}"
                   }
