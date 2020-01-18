@@ -6,10 +6,12 @@
       debug: msg="{{ lookup('env','BUILD_TAG') }}"
     - name: cache clear
       shell: "rm -rf /tmp/test/*"
-    - name: remove web dir contents
-      file:
-        path: "{{ item }}"
-        state: absent
-      with_items:
-        - "/tmp/test2/*"
-        - "/tmp/test3/*"
+    - find: path=/tmp/test2 file_type=file
+      register: files
+    - find: path=/tmp/test2 file_type=directory
+      register: directories
+    - file: state=absent path={{ item.path }}
+      with_items: 
+        - "{{ files }}"
+        - "{{ directories }}
+
