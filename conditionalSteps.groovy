@@ -3,7 +3,6 @@
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 def CACHE_CLEAR (){
-    node {
         stage ('CACHE_CLEAR') {
             dir ('../Test') {
                 ansiColor('xterm') {
@@ -17,7 +16,6 @@ def CACHE_CLEAR (){
                      )
                 }
             }
-        }
     }
 }
 def PUB1(){
@@ -46,20 +44,6 @@ def PUB2(){
         }
         stage ('PUB2_DEPLOY') {
             echo "${PUB2}"
-        }
-        stage ('CACHE_CLEAR') {
-            dir ('../Test') {
-                ansiColor('xterm') {
-                    ansiblePlaybook(
-                        playbook: 'playbook.yaml',
-                        inventory: 'inventory.ini',
-                        limit: "${PUBLISHER}",
-                        credentialsId: 'ansibleDeploy',
-                        disableHostKeyChecking: true,
-                        colorized: true
-                     )
-                }
-            }
         }
         stage ('START_HTTPD') {
             dir ('../Test') {
