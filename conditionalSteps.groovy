@@ -89,7 +89,7 @@ pipeline {
         }
         stage('DEPLOY') {
             steps {
-               $PUBLISHER()
+                "${PUBLISHER}"()
             }
         }
     }
