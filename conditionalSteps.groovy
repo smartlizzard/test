@@ -1,6 +1,28 @@
 #!/usr/bin/env groovy
 
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
+def PUB1(){
+    stage('PUB1_DEPLOY') {
+        steps {
+            script {
+                load "file.propertise"
+                echo "${PUB1}"
+            }
+        }
+    } 
+}
+
+def PUB2(){
+    stage('PUB2_DEPLOY') {
+        steps {
+            script {
+                load "file.propertise"
+                echo "${PUB2}"
+            }
+        }
+    }
+}
+
 
 pipeline {
     agent any
