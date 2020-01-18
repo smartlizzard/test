@@ -15,11 +15,6 @@ def PUB2(){
             echo "${PUB2}"
             pwd()
         }
-        stage ('Source Code Checkout') {
-            git branch: "${GIT_BRANCH_LOCAL}",
-                credentialsId: 'GitHub',
-                url: "${GIT_URL}"
-        }
         ansiblePlaybook(
             playbook: 'playbook.yaml',
             inventory: 'inventory.ini',
