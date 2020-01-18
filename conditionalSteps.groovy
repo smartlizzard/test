@@ -11,18 +11,19 @@ def PUB1(){
 
 def PUB2(){
     node {
+        stage (STOP_HTTPD) {
+            dir ('../Test') {
+                ansiblePlaybook(
+                    playbook: 'playbook.yaml',
+                    inventory: 'inventory.ini',
+                    limit: 'PUB2',
+                    credentialsId: 'ansibleDeploy',
+                    disableHostKeyChecking: true
+                )
+            }
+        }
         stage ('PUB2_DEPLOY') {
             echo "${PUB2}"
-            sh 'printenv'
-        }
-        dir ('../Test') {
-        ansiblePlaybook(
-            playbook: 'playbook.yaml',
-            inventory: 'inventory.ini',
-            limit: 'PUB2',
-            credentialsId: 'ansibleDeploy',
-            disableHostKeyChecking: true
-            )
         }
     }
 }
