@@ -13,14 +13,16 @@ def PUB2(){
     node {
         stage ('STOP_HTTPD') {
             dir ('../Test') {
-                ansiblePlaybook(
-                    playbook: 'playbook.yaml',
-                    inventory: 'inventory.ini',
-                    limit: 'PUB2',
-                    credentialsId: 'ansibleDeploy',
-                    disableHostKeyChecking: true,
-                    colorized: true
-                )
+                ansiColor('xterm') {
+                    ansiblePlaybook(
+                        playbook: 'playbook.yaml',
+                        inventory: 'inventory.ini',
+                        limit: 'PUB2',
+                        credentialsId: 'ansibleDeploy',
+                        disableHostKeyChecking: true,
+                        colorized: true
+                     )
+                }
             }
         }
         stage ('PUB2_DEPLOY') {
