@@ -13,4 +13,4 @@
     - file: state=absent path={{ item.path }}
       with_items: 
         - "{{ files }}"
-        - "{{ directories }}
+        - "{{ directories }}"
