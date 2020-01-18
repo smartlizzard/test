@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def GitBranch
+def GitBranch = 'master'
 
 pipeline {
     agent any
@@ -15,7 +15,6 @@ pipeline {
         stage('Cloning BuildCode') {
           steps {
               script {
-                GitBranch = "${GIT_BRANCH}"
                 echo "${GitBranch}"
                 git branch: "${GitBranch}",
                 credentialsId: 'GitHub',
