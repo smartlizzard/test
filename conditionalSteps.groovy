@@ -6,11 +6,6 @@ def PUB1(){
         stage('PUB1_DEPLOY') {
             echo "${PUB1}"
         }
-        ansiblePlaybook( 
-        playbook: 'playbook.yaml',
-        inventory: 'inventory.ini', 
-        credentialsId: 'ansibleDeploy', 
-        extras: '-e parameter="some value"')
     }
 }
 
@@ -19,6 +14,11 @@ def PUB2(){
         stage('PUB2_DEPLOY') {
             echo "${PUB2}"
         }
+        ansiblePlaybook( 
+        playbook: 'playbook.yaml',
+        inventory: 'inventory.ini',
+        limit: 'PUB2',
+        credentialsId: 'ansibleDeploy'
     }
 }
 
@@ -78,7 +78,7 @@ pipeline {
         }
         stage('DEPLOY') {
             steps {
-               PUB1()
+               PUB2()
             }
         }
     }
