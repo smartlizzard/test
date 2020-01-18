@@ -15,12 +15,14 @@ def PUB2(){
             echo "${PUB2}"
             pwd()
         }
+        dir ("${env.WORKSPACE}") {
         ansiblePlaybook(
             playbook: 'playbook.yaml',
             inventory: 'inventory.ini',
             limit: 'PUB2',
             credentialsId: 'ansibleDeploy'
             )
+        }
     }
 }
 
