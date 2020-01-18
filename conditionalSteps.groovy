@@ -58,32 +58,73 @@ def PUB2(){
 pipeline {
     agent any
      parameters { 
-         string(name: 'CODE_BRANCH', defaultValue: 'master', description: 'Branch Name')
-         choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2'], description: 'Deploy On')
+         string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name')
+         choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On')
      }
 
     stages {
-        stage('CleanWorkspace') {
+        stage('CLEAN_WORKSPACE') {
             steps {
                 cleanWs()
                 sh 'printenv'
             }
         }
 
-        stage('Checkout') {
-          steps {
-              script {
-                  def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
-                  echo "${CODE_BRANCH}"
-                  echo "${GIT_BRANCH_LOCAL}"
-                  echo "${GIT_URL}"
-                  git branch: "${GIT_BRANCH_LOCAL}",
-                      credentialsId: 'GitHub',
-                      url: "${GIT_URL}"
-                  }
-              }
+        stage('SCRIPT_CHECKOUT') {
+            steps {
+                script {
+                    def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
+                    echo "${CODE_BRANCH}"
+                    echo "${GIT_BRANCH_LOCAL}"
+                    echo "${GIT_URL}"
+                    git branch: "${GIT_BRANCH_LOCAL}",
+                    credentialsId: 'GitHub',
+                    url: "${GIT_URL}"
+                }
             }
-        
+        }
+
+        stage('CREATE_INVENTORY') {
+            steps {
+                script {
+                    load "tags.propertise"
+                    if ( params.PUBLISHER == 'PUB1' ) {
+                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
+                        sh "echo ${DISP1} >> inventory.ini"
+                        sh "echo [RestDiapatcher] >> inventory.ini"
+                        sh "echo ${DISP2} >> inventory.ini"
+                        sh "echo ${DISP3} >> inventory.ini"
+                        sh "echo ${DISP4} >> inventory.ini"
+                    }
+                    if ( params.PUBLISHER == 'PUB2' ) {
+                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
+                        sh "echo ${DISP2} >> inventory.ini"
+                        sh "echo [RestDiapatcher] >> inventory.ini"
+                        sh "echo ${DISP1} >> inventory.ini"
+                        sh "echo ${DISP3} >> inventory.ini"
+                        sh "echo ${DISP4} >> inventory.ini"
+                    }
+                    if ( params.PUBLISHER == 'PUB3' ) {
+                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
+                        sh "echo ${DISP3} >> inventory.ini"
+                        sh "echo [RestDiapatcher] >> inventory.ini"
+                        sh "echo ${DISP1} >> inventory.ini"
+                        sh "echo ${DISP2} >> inventory.ini"
+                        sh "echo ${DISP4} >> inventory.ini"
+                    }
+                    if ( params.PUBLISHER == 'PUB4' ) {
+                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
+                        sh "echo ${DISP4} >> inventory.ini"
+                        sh "echo [RestDiapatcher] >> inventory.ini"
+                        sh "echo ${DISP1} >> inventory.ini"
+                        sh "echo ${DISP2} >> inventory.ini"
+                        sh "echo ${DISP3} >> inventory.ini"
+                    }
+                    sh 'cat inventory.ini'
+                }
+            }
+        }
+        /*
         stage('Test') {
             steps {
                 script {
@@ -96,6 +137,7 @@ pipeline {
                 }
             }
         }
+        
         stage('Test1') {
             steps {
                 script {
@@ -110,6 +152,7 @@ pipeline {
                 }
             }
         }
+        
         stage('DEPLOY') {
             steps {
                 script {
@@ -118,6 +161,6 @@ pipeline {
                     "${PUBLISHER}"()
                 }
             }
-        }
+        }*/
     }
 }
