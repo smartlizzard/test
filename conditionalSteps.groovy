@@ -57,10 +57,13 @@ def PUB2(){
 
 pipeline {
     agent any
-     parameters { 
-         string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name')
-         choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On')
-     }
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
+    }
+    parameters { 
+        string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name')
+        choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On')
+    }
 
     stages {
         stage('CLEAN_WORKSPACE') {
