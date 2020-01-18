@@ -2,6 +2,7 @@
 - hosts: all
   become: yes
   tasks:
-    - debug: msg="{{ lookup('env','BUILD_TAG') }}"
-    - Name: cache clear
-        shell: "rm -rf /tmp/test/*"
+    - name: Display the config
+      debug: msg="{{ lookup('env','BUILD_TAG') }}"
+    - name: cache clear
+      shell: "rm -rf /tmp/test/*"
