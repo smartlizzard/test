@@ -14,11 +14,13 @@ pipeline {
 
         stage('Cloning BuildCode') {
           steps {
+              script {
                 GitBranch = "${GIT_BRANCH}"
                 echo "${GitBranch}"
                 git branch: "${GitBranch}",
                 credentialsId: 'GitHub',
                 url: "https://github.com/smartlizzard/test.git"
+              }
             }
         }
         
