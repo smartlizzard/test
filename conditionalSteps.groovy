@@ -21,7 +21,7 @@ def PUB2(){
             inventory: 'inventory.ini',
             limit: 'PUB2',
             credentialsId: 'ansibleDeploy',
-            extraVars:"--ssh-common-args='-o StrictHostKeyChecking=no'"
+            hostKeyChecking: 'false'
             )
         }
     }
