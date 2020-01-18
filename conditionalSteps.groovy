@@ -1,6 +1,25 @@
 #!/usr/bin/env groovy
 
 def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
+
+def CACHE_CLEAR (){
+    node {
+        stage ('CACHE_CLEAR') {
+            dir ('../Test') {
+                ansiColor('xterm') {
+                    ansiblePlaybook(
+                        playbook: 'playbook.yaml',
+                        inventory: 'inventory.ini',
+                        limit: "${PUBLISHER}",
+                        credentialsId: 'ansibleDeploy',
+                        disableHostKeyChecking: true,
+                        colorized: true
+                     )
+                }
+            }
+        }
+    }
+}
 def PUB1(){
     node {
         stage('PUB1_DEPLOY') {
@@ -119,6 +138,7 @@ pipeline {
             steps {
                 script {
                     echo "${PUBLISHER}"
+                    CACHE_CLEAR()
                     "${PUBLISHER}"()
                 }
             }
