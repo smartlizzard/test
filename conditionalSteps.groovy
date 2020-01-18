@@ -6,6 +6,11 @@ def PUB1(){
         stage('PUB1_DEPLOY') {
             echo "${PUB1}"
         }
+        ansiblePlaybook( 
+        playbook: 'playbook.yaml',
+        inventory: 'inventory.ini', 
+        credentialsId: 'ansibleDeploy', 
+        extras: '-e parameter="some value"')
     }
 }
 
@@ -63,10 +68,10 @@ pipeline {
                     def files = readFile('./tags.properties').readLines()
                         for (int i = 1; i <= files.size(); i++) {
                             echo "Number of IP : $i"
-                            sh "echo [PUB$i] >> file2.propertise"
-                            sh "echo \"\$(aws ec2 describe-instances --filter \"Name=tag:Name,Values=`head -n$i ./tags.properties | tail -1`\"  --region us-east-1  | jq -r .Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress)\" >> file2.propertise"
+                            sh "echo [PUB$i] >> inventory.ini"
+                            sh "echo \"\$(aws ec2 describe-instances --filter \"Name=tag:Name,Values=`head -n$i ./tags.properties | tail -1`\"  --region us-east-1  | jq -r .Reservations[].Instances[].NetworkInterfaces[].PrivateIpAddress)\" >> inventory.ini"
                         }
-                    sh "cat file2.propertise"
+                    sh "cat inventory.ini"
                     load "file.propertise"
                 }
             }
