@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-//def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
+def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 def CACHE_CLEAR (){
     stage ('CACHE_CLEAR') {
@@ -77,7 +77,7 @@ pipeline {
             steps {
                 script {
                     def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
-                   // echo "${CODE_BRANCH}"
+                   echo "${CODE_BRANCH}"
                     echo "${GIT_BRANCH_LOCAL}"
                     echo "${GIT_URL}"
                     git branch: "${GIT_BRANCH_LOCAL}",
@@ -90,7 +90,7 @@ pipeline {
         stage('CREATE_INVENTORY') {
             steps {
                 script {
-                    load "tags.propertise"
+                    load "tags.properties"
                     if ( params.PUBLISHER == 'PUB1' ) {
                         writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
                         sh "echo ${DISP1} >> inventory.ini"
