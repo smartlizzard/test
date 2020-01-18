@@ -20,7 +20,8 @@ def PUB2(){
             playbook: 'playbook.yaml',
             inventory: 'inventory.ini',
             limit: 'PUB2',
-            credentialsId: 'ansibleDeploy'
+            credentialsId: 'ansibleDeploy',
+            extraVars:"--ssh-common-args='-o StrictHostKeyChecking=no'"
             )
         }
     }
