@@ -13,7 +13,7 @@ def PUB2(){
     node {
         stage ('PUB2_DEPLOY') {
             echo "${PUB2}"
-            pwd()
+            sh 'printenv'
         }
         dir ("${env.WORKSPACE}") {
         ansiblePlaybook(
