@@ -13,6 +13,7 @@ def PUB2(){
     node {
         stage('PUB2_DEPLOY') {
             echo "${PUB2}"
+            pwd()
         }
         ansiblePlaybook(
             playbook: 'playbook.yaml',
