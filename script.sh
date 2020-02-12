@@ -3,7 +3,6 @@ if ! grep -E "RestDispstcher" inventory.ini; then
 fi
 export lines=$(grep PUB tags.properties | wc -l)
 export line=1
-echo "$line $lines"
 while [ $line -le $lines ] 
 do  
     DISPIP=$(grep DISP$line= disp.properties | sed "s/DISP$line=//g" | sed 's/"//g' )
