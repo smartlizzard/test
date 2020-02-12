@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
 
-def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
-
 pipeline {
     agent any
     options {
@@ -24,7 +22,6 @@ pipeline {
             steps {
                 script {
                     def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
-                   echo "${CODE_BRANCH}"
                     echo "${GIT_BRANCH_LOCAL}"
                     echo "${GIT_URL}"
                     git branch: "${GIT_BRANCH_LOCAL}",
@@ -37,39 +34,7 @@ pipeline {
         stage('CREATE_INVENTORY') {
             steps {
                 script {
-                    load "tags.properties"
-                    if ( params.PUBLISHER == 'PUB1' ) {
-                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
-                        sh "echo ${DISP1} >> inventory.ini"
-                        sh "echo [RestDiapatcher] >> inventory.ini"
-                        sh "echo ${DISP2} >> inventory.ini"
-                        sh "echo ${DISP3} >> inventory.ini"
-                        sh "echo ${DISP4} >> inventory.ini"
-                    }
-                    if ( params.PUBLISHER == 'PUB2' ) {
-                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
-                        sh "echo ${DISP2} >> inventory.ini"
-                        sh "echo [RestDiapatcher] >> inventory.ini"
-                        sh "echo ${DISP1} >> inventory.ini"
-                        sh "echo ${DISP3} >> inventory.ini"
-                        sh "echo ${DISP4} >> inventory.ini"
-                    }
-                    if ( params.PUBLISHER == 'PUB3' ) {
-                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
-                        sh "echo ${DISP3} >> inventory.ini"
-                        sh "echo [RestDiapatcher] >> inventory.ini"
-                        sh "echo ${DISP1} >> inventory.ini"
-                        sh "echo ${DISP2} >> inventory.ini"
-                        sh "echo ${DISP4} >> inventory.ini"
-                    }
-                    if ( params.PUBLISHER == 'PUB4' ) {
-                        writeFile file: 'inventory.ini', text: '[Diapatcher]\n'
-                        sh "echo ${DISP4} >> inventory.ini"
-                        sh "echo [RestDiapatcher] >> inventory.ini"
-                        sh "echo ${DISP1} >> inventory.ini"
-                        sh "echo ${DISP2} >> inventory.ini"
-                        sh "echo ${DISP3} >> inventory.ini"
-                    }
+                    sh "sh script.sh ${params.PUBLISHER}"
                     sh 'cat inventory.ini'
                 }
             }
