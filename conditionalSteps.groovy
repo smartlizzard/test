@@ -5,8 +5,8 @@ pipeline {
     options {
         buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
     }
-    parameters { 
-        choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On').trim()
+    parameters {
+        choice choices: ['PUB1', 'PUB2'], description: '', name: 'PUBLISHER'
     }
 
     stages {
