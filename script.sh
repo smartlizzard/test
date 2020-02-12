@@ -7,7 +7,7 @@ echo "$line $lines"
 while [ $line -le $lines ] 
 do  
     DISPIP=$(grep DISP$line= disp.properties | sed "s/DISP$line=//g" | sed 's/"//g' )
-    if [ "$1" == "PUB$line" ]; then
+    if [ "$1" = "PUB$line" ]; then
         sed -i "/\[Dispatcher\]/a$DISPIP" inventory.ini
     else 
         sed -i "/\[RestDispstcher\]/a$DISPIP" inventory.ini
