@@ -67,6 +67,7 @@ pipeline {
             }
         }
         */
+        /*
         stage('DEPLOY') {
             steps {
                 script {
@@ -75,5 +76,6 @@ pipeline {
                 }
             }
         }
+        */
     }
 }
