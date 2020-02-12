@@ -6,7 +6,6 @@ pipeline {
         buildDiscarder(logRotator(daysToKeepStr: '', numToKeepStr: '5'))
     }
     parameters { 
-        string(name: 'CODE_BRANCH', defaultValue: 'Development', description: 'Branch Name').trim()
         choice(name: 'PUBLISHER', choices: ['PUB1', 'PUB2', 'PUB3', 'PUB4'], description: 'Deploy On').trim()
     }
 
