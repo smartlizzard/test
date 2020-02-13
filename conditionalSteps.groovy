@@ -29,13 +29,26 @@ pipeline {
                 }
             }
         }
-
+        /*
         stage('CREATE_INVENTORY') {
             steps {
                 script {
                     sh "ls -lrth"
                     sh "sh script.sh ${params.PUBLISHER}"
                     sh 'cat inventory.ini'
+                }
+            }
+        }
+        */
+        stage('CREATE_INVENTORY') {
+            steps {
+                script {
+                    def lines = readFile('./tags.properties').readLines()
+                    int count = 1;
+                    while(count<="${lines}") {
+                        println(count);
+                        count++;
+                    }
                 }
             }
         }
