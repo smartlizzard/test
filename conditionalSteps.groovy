@@ -50,9 +50,9 @@ pipeline {
                         def DISPIP = sh (script: "grep DISP$count= disp.properties | sed 's/DISP$count=//g' |  sed 's/\"//g'",returnStdout: true).trim()
                         if (params.PUBLISHER == "PUB$count") {
                             echo "Same Publisher"
-                            sh "sed -i \"/\[Dispatcher\]/a$DISPIP\" inventory.ini"
+                            sh "sed -i \"/\\[Dispatcher\\]/a$DISPIP\" inventory.ini"
                         } else {
-                            sh "sed -i \"/\[RestDispstcher\]/a$DISPIP\" inventory.ini"
+                            sh "sed -i \"/\\[RestDispstcher\\]/a$DISPIP\" inventory.ini"
                             echo "DISP IP IS $DISPIP"
                             echo "Count is $count"
                         }
