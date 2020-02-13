@@ -97,7 +97,8 @@ pipeline {
             steps {
                 script {
                     load "tags.properties"
-                    echo "${params.PUBLISHER}"
+                    def PUB = "${params.PUBLISHER}"
+                    echo "${PUB}"
                 }
             }
         }
