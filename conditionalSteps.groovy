@@ -45,11 +45,9 @@ pipeline {
                 script {
                     def lines = readFile('./tags.properties').readLines()
                     def count = '1';
-                    while(count<="${lines}") {
-                        for (int i = 1; i <= lines.size(); i++) {
-                            println(count);
-                            count++;
-                        }
+                    while(count <= "${lines}") {
+                        println(count);
+                        count++;
                     }
                 }
             }
