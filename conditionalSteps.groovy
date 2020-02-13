@@ -37,7 +37,7 @@ pipeline {
                     def lines = readFile('./tags.properties').readLines()
                     def count = '1';
                     while("$count" <= lines.size()) {
-                        def DISPIP = sh (script: "grep DISP$count= disp.properties | sed 's/DISP$count=//g' |  sed 's/\"//g'",returnStdout: true).trim()
+                        def DISPIP = sh (script: "grep DISP$count= disp.properties | sed 's/DISP$count=//g' | sed 's/\"//g'",returnStdout: true).trim()
                         if (params.PUBLISHER == "PUB$count") {
                             echo "Same Publisher"
                             sh "sed -i \"/\\[Dispatcher\\]/a$DISPIP\" inventory.ini"
