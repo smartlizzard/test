@@ -45,7 +45,7 @@ pipeline {
                 script {
                     def lines = readFile('./tags.properties').readLines()
                     def count = '1';
-                    while(count <= lines.size()) {
+                    while("$count" <= lines.size()) {
                         echo "Count is $count"
                     count++;
                     }
