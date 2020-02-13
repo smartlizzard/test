@@ -29,17 +29,7 @@ pipeline {
                 }
             }
         }
-        /*
-        stage('CREATE_INVENTORY') {
-            steps {
-                script {
-                    sh "ls -lrth"
-                    sh "sh script.sh ${params.PUBLISHER}"
-                    sh 'cat inventory.ini'
-                }
-            }
-        }
-        */
+
         stage('CREATE_INVENTORY') {
             steps {
                 script {
