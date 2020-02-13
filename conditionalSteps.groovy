@@ -52,7 +52,8 @@ pipeline {
                             echo "Same Publisher"
                             sh "sed -i \"/\\[Dispatcher\\]/a$DISPIP\" inventory.ini"
                         } else {
-                            sh "sed -i \"/\\[RestDispstcher\\]/a$DISPIP\" inventory.ini"
+                            //sh "sed -i \"/\\[RestDispstcher\\]/a$DISPIP\" inventory.ini"
+                            echo $DISPIP >> inventory.ini
                             echo "DISP IP IS $DISPIP"
                             echo "Count is $count"
                         }
