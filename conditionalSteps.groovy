@@ -106,7 +106,8 @@ pipeline {
                 script {
                     def lines = readFile('./tags.properties').readLines()
                     for (int i = 1; i <= lines.size(); i++) {
-                        echo "PUB$i"
+                        def PUB = "PUB$i"
+                        echo "${PUB}"
                     }
                 }
             }
