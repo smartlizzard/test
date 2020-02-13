@@ -43,7 +43,7 @@ pipeline {
         stage('CREATE_INVENTORY') {
             steps {
                 script {
-                    writeFile file: 'inventory.ini', text: [Dispatcher]\n[RestDispstcher]
+                    writeFile file: 'inventory.ini', text: '[Dispatcher]\n[RestDispstcher]'
                     def lines = readFile('./tags.properties').readLines()
                     def count = '1';
                     while("$count" <= lines.size()) {
