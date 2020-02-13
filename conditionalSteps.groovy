@@ -92,15 +92,24 @@ pipeline {
             }
         }
         */
-        /*
-        stage('DEPLOY') {
+
+        stage('DEPLOY_PUBLISHER') {
             steps {
                 script {
-                    load "${PUBLISHER}.groovy"
-                    "${PUBLISHER}"()
+                    load "tags.properties"
+                    echo "${params.PUBLISHER}"
                 }
             }
         }
-        */
+        stage('DEPLOY_REST_PUBLISHER') {
+            steps {
+                script {
+                    def lines = readFile('./tags.properties').readLines()
+                    for (int i = 1; i <= lines.size(); i++) {
+                        echo "PUB$i"
+                    }
+                }
+            }
+        }
     }
 }
