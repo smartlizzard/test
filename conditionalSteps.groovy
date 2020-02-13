@@ -47,8 +47,12 @@ pipeline {
                     def count = '1';
                     while("$count" <= lines.size()) {
                         def DISPIP = sh (script: "grep DISP$count= disp.properties | sed 's/DISP$count=//g' |  sed 's/\"//g'",returnStdout: true).trim()
-                        echo "DISP IP IS $DISPIP"
-                        echo "Count is $count"
+                        if (params.PUBLISHER == "PUB$count") {
+                            echo "Same Publisher"
+                        } else {
+                            echo "DISP IP IS $DISPIP"
+                            echo "Count is $count"
+                        }
                     count++;
                     }
                 }
