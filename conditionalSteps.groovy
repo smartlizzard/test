@@ -96,9 +96,9 @@ pipeline {
         stage('DEPLOY_PUBLISHER') {
             steps {
                 script {
-                    load "tags.properties"
                     def PUB = "${params.PUBLISHER}"
-                    echo "${PUB}"
+                    def PUBIP = sh (script: "grep $PUB= tags.properties | sed 's/$PUB=//g' |  sed 's/\"//g'",returnStdout: true).trim()
+                    echo "${PUBIP}"
                 }
             }
         }
@@ -109,6 +109,12 @@ pipeline {
                     for (int i = 1; i <= lines.size(); i++) {
                         def PUB = "PUB$i"
                         echo "${PUB}"
+                        if (params.PUBLISHER == "$PUB") {
+                            echo "Already Deployed"
+                        } else {
+                            def PUBIP = sh (script: "grep $PUB= tags.properties | sed 's/$PUB=//g' |  sed 's/\"//g'",returnStdout: true).trim()
+                            echo "${PUBIP}"
+                        }
                     }
                 }
             }
