@@ -1,0 +1,63 @@
+{
+	"Properties": [{
+		"Environment": [{
+			"Dev": [{
+				"Tags": [{
+					"Dispature": [{
+						"Disp1": "xyz"
+					}],
+					"Publisher": [{
+						"Pub1": "xyz"
+					}],
+					"Author": [{
+						"Auth1": "xyz"
+					}]
+				}]
+			}],
+
+			"Qa": [{
+				"Tags": [{
+					"Dispature": [{
+						"Disp1": "xyz"
+					}],
+					"Publisher": [{
+						"Pub1": "xyz"
+					}],
+					"Author": [{
+						"Auth1": "xyz"
+					}]
+				}]
+			}],
+
+			"Stag": [{
+				"Tags": [{
+					"Dispature": [{
+                        "Disp1": "xyz",
+                        "Disp2": "abc"
+					}],
+					"Publisher": [{
+                        "Pub1": "xyz",
+                        "Pub2": "abc"
+					}]
+				}]
+			}],
+
+			"Prod": [{
+				"Tags": [{
+					"Dispature": [{
+                        "Disp1": "xyz",
+                        "Disp2": "abc",
+                        "Disp3": "efg",
+                        "Disp4": "ijk"
+					}],
+					"Publisher": [{
+                        "Pub1": "xyz",
+                        "Pub2": "abc",
+                        "Pub3": "efg",
+                        "Pub4": "ijk"
+					}]
+				}]
+			}]
+		}]
+	}]
+}
