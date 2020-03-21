@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json', returnPojo: true
-                    echo "color: ${props.Properties.Environment.Dev.Tags}"
+                    echo "Dev: ${props.Properties.Environment.Dev.Tags.Dispature}"
                 }
             }
         }
