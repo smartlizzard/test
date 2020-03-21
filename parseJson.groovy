@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-
+import groovy.json.JsonSlurper
 
 pipeline {
     agent any
@@ -31,9 +31,16 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    props.Properties.Environment.Prod.Tags.Dispature[].each { key, value ->
+                    def count = props.Properties.Environment.Prod.Tags.Dispature.keySet()
+                    echo "count = $count"
+                    for (int i = 1; i <= count.lenth; i++) {
+                        for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
+                            echo "key=${key}"
+                        }   
+                    }/*
+                    props.Properties.Environment.Prod.Tags.Dispature.each { key, value ->
                         echo "Walked through key $key and value $value"
-                    }
+                    }*/
                 }
             }
         }
