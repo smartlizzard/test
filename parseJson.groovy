@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json', returnPojo: true
-                    for (key in props.Properties.Environment.Dev.Tags.Dispature.keySet()) {
+                    for (key in props.Properties.Environment.Dev.Tags.Dispature.get()) {
                         echo "key=${key}"
                         echo "value= ${props.Properties.Environment.Dev.Tags.Dispature.get(key)}"
                     }
