@@ -31,9 +31,8 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    def test = new JsonSlurper().parseText(props)
-                    def keys = test.keySet() as List
-                    echo "keys = $keys"
+                    def count = props.Properties[].Environment[].Prod[].Tags[].Dispature
+                    echo "count = $count"
                     for (int i = 1; i <= count.lenth; i++) {
                         for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
                             echo "key=${key}"
