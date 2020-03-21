@@ -1,6 +1,5 @@
 #!/usr/bin/env groovy
 
-def SOURCE_CODE_BRANCH = "${CODE_BRANCH}"
 
 pipeline {
     agent any
