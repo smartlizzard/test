@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    def count = props['Properties']['Environment]'['Prod']['Tags']['Dispature'].keySet()
+                    def count = props['Properties']['Environment']['Prod']['Tags']['Dispature'].keySet()
                     echo "count = $count"
                     for (int i = 1; i <= count.lenth; i++) {
                         for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
