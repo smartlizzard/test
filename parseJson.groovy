@@ -31,12 +31,9 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    def count = assert props.Properties.Environment.Prod.Tags.Dispature.size()
-                    echo "count = $count"
-                    for (int i = 1; i <= count; i++) {
-                        for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
-                            echo "key=${key}"
-                        }   
+                    assert props.Properties.Environment.Prod.Tags.Dispature.size()
+                    assert props.Properties.Environment.Prod.Tags.Dispature.each{
+                    println it 
                     }
                 }
             }
