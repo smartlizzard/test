@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    props.Properties.Environment.Prod.Tags.Dispature.each { key, value ->
+                    props.Properties.Environment.Prod.Tags.Dispature[].each { key, value ->
                         echo "Walked through key $key and value $value"
                     }
                 }
