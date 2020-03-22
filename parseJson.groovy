@@ -31,13 +31,15 @@ pipeline {
             steps {
                 script {
                     def props = readJSON file: 'properties.json'
-                    def count = "cat properties.json | jq .Properties[].Environment[].Prod[].Tags[].Dispature[] | grep 'Pub' | wc -l".execute()
+                    def count = props.Properties.Environment.Prod.Tags.Dispature
                     echo "count = $count"
-                    for (int i = 1; i <= count; i++) {
+                    /*
+                    for (int i = 1; i <= count.lenth; i++) {
                         for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
                             echo "key=${key}"
                         }   
                     }
+                    */
                     /*
                     props.Properties.Environment.Prod.Tags.Dispature.each { key, value ->
                         echo "Walked through key $key and value $value"
