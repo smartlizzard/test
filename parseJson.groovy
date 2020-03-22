@@ -30,15 +30,16 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def jsonSlurper = new JsonSlurper()
-                    def input = jsonSlurper.parse(new File ("${env.WORKSPACE}/properties.json"))
-                    def count = input.get("Properties").get(0).get("Environment").get(0).get("Prod").get(0).get("Tags").get(0).get("Dispature").get(0)
-                    echo "Count = ${count}"
+                    def props = readJSON file: 'properties.json', returnPojo: true
+                    def count = props.Properties.get(0).Environment.get(0).Prod.get(0).Tags.get(0).Dispature.get(0)
+                    echo "count = $count"
+                    /*
                     for (int i = 1; i <= count.lenth; i++) {
                         for (key in props.Properties.Environment.Prod.Tags.Dispature.get(i)) {
                             echo "key=${key}"
                         }   
                     }
+                    */
                     /*
                     props.Properties.Environment.Prod.Tags.Dispature.each { key, value ->
                         echo "Walked through key $key and value $value"
