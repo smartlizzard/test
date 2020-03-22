@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def jsonSlurper = new JsonSlurper()
-                    def input = new JsonSluper().parse(new File ("${env.WORKSPACE}/properties.json")
+                    def input = new JsonSluper().parse(new File ("${env.WORKSPACE}/properties.json"))
                     def count = input.get("Properties").get(0).get("Environment").get(0).get("Prod").get(0).get("Tags").get(0).get("Dispature")
                     echo "Count = ${count}"
                     /*
