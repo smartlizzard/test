@@ -32,7 +32,7 @@ pipeline {
                 script {
                     def jsonSlurper = new JsonSlurper()
                     def input = jsonSlurper.parse(new File ("${env.WORKSPACE}/properties.json"))
-                    def count = input.get("Properties").get(0).get("Environment").get(0).get("Prod").get(0).get("Tags").get(0).get("Dispature")
+                    def count = input.get("Properties").get(0).get("Environment").get(0).get("Prod").get(0).get("Tags").get(0).get("Dispature").get(0)
                     echo "Count = ${count}"
                     /*
                     for (int i = 1; i <= count.lenth; i++) {
