@@ -35,7 +35,9 @@ pipeline {
                     def count = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Dispature.get(0)
                     echo "count = $count"
                     count.each { key, value ->
-                        echo "Walked through key $key and value $value"
+                        echo "$key = $value"
+                        def DISPTAG = "$value"
+                        echo "DISPTAG = $DISPTAG"
                     }
                 }
             }
