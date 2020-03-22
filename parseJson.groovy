@@ -30,7 +30,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def props = readJSON file: 'properties.json'
+                    def props = readJSON file: 'properties.json', returnPojo: true
                     def count = props['Properties']['Environment']['Prod']['Tags']['Dispature']
                     echo "count = $count"
                     /*
