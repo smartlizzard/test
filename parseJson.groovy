@@ -1,12 +1,27 @@
 #!/usr/bin/env groovy
 import groovy.json.JsonSlurper
+def PUB (){
+    def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
+    git branch: "${GIT_BRANCH_LOCAL}",
+    credentialsId: 'GitHub',
+    url: "${GIT_URL}"
+    def props = readJSON file: 'properties.json', returnPojo: true
+    def disp = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Publisher.get(0)
+    disp.each { key, value ->
+        echo "$key = $value"
+        disptag = "$value" + '\n'
+        echo "DISPTAG = $disptag"
+    }
+    return "$value"
+}
 
 pipeline {
     agent any
-     parameters { 
+    parameters { 
         string(name: 'CODE_BRANCH', defaultValue: 'master', description: 'Branch Name')
         choice(name: 'ENVIRONMENT', choices: ['Prod', 'Qa', 'Stag', 'Dev'], description: 'Environment')
-     }
+        choice(name: 'PUBLISHER', choices: PUB(), description: 'Environment')
+    }
 
     stages {
         stage('CleanWorkspace') {
@@ -35,10 +50,9 @@ pipeline {
                     def disp = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Dispature.get(0)
                     disp.each { key, value ->
                         echo "$key = $value"
-                        disptag = "$value" + '\n'
+                        disptag = "$value"
                         echo "DISPTAG = $disptag"
                     }
-                    parameters: [choice(name: 'PUBLISHER', choices: "${disptag}", description: 'Environment')]
                 }
             }
         }
