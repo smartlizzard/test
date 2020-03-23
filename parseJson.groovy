@@ -1,17 +1,7 @@
 #!/usr/bin/env groovy
 import groovy.json.JsonSlurper
 def PUB (){
-    def GIT_BRANCH_LOCAL = sh (script: "echo ${GIT_BRANCH} | sed -e 's|origin/||g'",returnStdout: true).trim()
-    git branch: "${GIT_BRANCH_LOCAL}",
-    credentialsId: 'GitHub',
-    url: "${GIT_URL}"
-    def props = readJSON file: 'properties.json', returnPojo: true
-    def disp = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Publisher.get(0)
-    disp.each { key, value ->
-        echo "$key = $value"
-        disptag = "$value" + '\n'
-        echo "DISPTAG = $disptag"
-    }
+    def value = sh (script: "aws s3 ls",returnStdout: true).trim()
     return "$value"
 }
 
