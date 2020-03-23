@@ -5,7 +5,7 @@ pipeline {
     agent any
      parameters { 
         string(name: 'CODE_BRANCH', defaultValue: 'master', description: 'Branch Name')
-        choice(name: 'ENVIRONMENT', choices: ['Dev', 'Qa', 'Stag', 'Prod'], description: 'Environment')
+        choice(name: 'ENVIRONMENT', choices: ['Prod', 'Qa', 'Stag', 'Dev'], description: 'Environment')
      }
 
     stages {
@@ -35,9 +35,10 @@ pipeline {
                     def disp = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Dispature.get(0)
                     disp.each { key, value ->
                         echo "$key = $value"
-                        def disptag = "$value"
+                        disptag = "$value" + \n
                         echo "DISPTAG = $disptag"
                     }
+                    parameters: [choice(name: 'PUBLISHER', choices: "${disptag}", description: 'Environment')]
                 }
             }
         }
