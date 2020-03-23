@@ -35,7 +35,7 @@ pipeline {
                     def disp = props.Properties.get(0).Environment.get(0)."${params.ENVIRONMENT}".get(0).Tags.get(0).Dispature.get(0)
                     disp.each { key, value ->
                         echo "$key = $value"
-                        disptag = "$value" + \n
+                        disptag = "$value" + '\n'
                         echo "DISPTAG = $disptag"
                     }
                     parameters: [choice(name: 'PUBLISHER', choices: "${disptag}", description: 'Environment')]
