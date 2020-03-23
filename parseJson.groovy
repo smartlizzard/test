@@ -2,11 +2,9 @@
 import groovy.json.JsonSlurper
 def PUB (){
     stage('xyz') {
-        steps {
-            script {
-                def value = sh (script: "aws s3 ls",returnStdout: true).trim()
-                return "$value"
-            }
+        script {
+            def value = sh (script: "aws s3 ls",returnStdout: true).trim()
+            return "$value"
         }
     }
 }
