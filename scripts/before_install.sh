@@ -2,9 +2,6 @@
 if [ ! -x /usr/sbin/nginx ]; then
     echo "Nginx not installed"
     echo "- installing nginx"
-    sudo apt-get install -y software-properties-common python-software-properties
-    sudo add-apt-repository ppa:nginx/stable
-    sudo apt-get update
-    sudo apt-get install nginx -y
+    yum -y install nginx
     echo "- installed nginx"
 fi
