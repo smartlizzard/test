@@ -51,5 +51,5 @@ Resources:
       Parameters:
         EC2InstancePublicDnsName: !GetAtt EC2Stack.Outputs.EC2Instance1PublicIp
         GitHubOwner: smartlizzard
-        GitHubOAuthToken: 3cc772ed63516d88b0e015ebd86f26301c303362
+        GitHubOAuthToken: 
         GitHubRepo: test
