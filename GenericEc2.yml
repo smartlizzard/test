@@ -50,29 +50,33 @@ Resources:
     Properties:
       IamInstanceProfile: !Ref EC2InstanceProfile
       InstanceType: t2.micro
-      ImageId: "ami-0dba2cb6798deb6d8"
+      ImageId: "ami-0947d2ba12ee1ff75"
       KeyName: "eskool-infra-key"
       SecurityGroupIds:
         - !Ref SecurityGroup
       SubnetId: !Ref PublicSubnet1 
       Monitoring: true
       BlockDeviceMappings:
-      - DeviceName: "/dev/sda1"
+      - DeviceName: "/dev/xvda"
         Ebs:
           VolumeSize: 10
           VolumeType: gp2
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash -xe
-          apt-get update
-          apt-get install -y auditd wget vim zip ruby unzip unrar rsync debconf-utils
-          apt-get update
-          wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install && chmod +x ./install && ./install auto && service codedeploy-agent start
+          amazon-linux-extras enable nginx1
+          yum install nginx -y
+          yum update -y && yum install -y ruby wget && wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install && chmod +x ./install && ./install auto && service codedeploy-agent start
+          /opt/aws/bin/cfn-signal -e $? --region ${AWS::Region} --stack ${AWS::StackName} --resource EC2Instance
       Tags:
       - Key: "Name"
         Value: !FindInMap [Name, Instance, Instance]
       - Key: DeploymentGroup
         Value: !Ref AWS::StackName
+    CreationPolicy:
+      ResourceSignal:
+        Count: 1
+        Timeout: PT10M
 
 Outputs:
   EC2Instance1InstanceID:
