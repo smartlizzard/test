@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Create Code Commit"
+Parameters:
+  RepositoryName:
+    Description: "Name of Repository"
+    Type: String
+
+Resources:
+  MyRepo:
+    Type: AWS::CodeCommit::Repository
+    Properties:
+      RepositoryName: !Ref RepositoryName
+      RepositoryDescription: This is a repository for my project with code from MySourceCodeBucket.

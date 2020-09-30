@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Create IAM Role and Policies"
+Parameters:
+  GroupName:
+    Description: "Name of Repository"
+    Type: String
+Resources:
+  DevloperGroup:
+    Type: AWS::IAM::Group
+    Properties: 
+      GroupName: !Ref GroupName
+
+  DevloperGroupPolicies:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: DevloperGroup
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Action: ['cloudformation:Describe*', 'cloudformation:List*', 'cloudformation:Get*', 'ec2:*']
+          Resource: '*'
+      Groups: [!Ref DevloperGroup]

@@ -1,0 +1,55 @@
+Parameters:
+  ArtifactBucketName:
+    Description: S3 Bucket Name
+    Type: String
+    Default: "bucketforcft"
+
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: !Sub 
+         "https://s3.amazonaws.com/${ArtifactBucketName}/devops/GenericVPC.yml"
+      TimeoutInMinutes: '15'
+
+  EC2Stack:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: !Sub 
+         "https://s3.amazonaws.com/${ArtifactBucketName}/devops/GenericEc2.yml"
+      TimeoutInMinutes: '15'
+      Parameters:
+        VPCID: !GetAtt VPCStack.Outputs.VPCID 
+        PublicSubnet1: !GetAtt VPCStack.Outputs.PublicSubnet1
+        PublicSubnet2: !GetAtt VPCStack.Outputs.PublicSubnet2
+        SecurityGroup: !GetAtt VPCStack.Outputs.SecurityGroup
+
+  CodeCommitStack:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: !Sub 
+         "https://s3.amazonaws.com/${ArtifactBucketName}/devops/codecommit.yml"
+      TimeoutInMinutes: '15'
+      Parameters:
+        RepositoryName: awsl2DevOps
+
+  Iam:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: !Sub 
+         "https://s3.amazonaws.com/${ArtifactBucketName}/devops/iam.yml"
+      TimeoutInMinutes: '15'
+      Parameters:
+        GroupName: DeveloperGroup
+  
+  CodePipeline:
+    Type: AWS::CloudFormation::Stack
+    Properties: 
+      TemplateURL: !Sub 
+         "https://s3.amazonaws.com/${ArtifactBucketName}/devops/codepipeline.yml"
+      TimeoutInMinutes: '15'
+      Parameters:
+        EC2InstancePublicDnsName: !GetAtt EC2Stack.Outputs.EC2Instance1PublicIp
+        GitHubOwner: smartlizzard
+        GitHubOAuthToken: 3cc772ed63516d88b0e015ebd86f26301c303362
+        GitHubRepo: test

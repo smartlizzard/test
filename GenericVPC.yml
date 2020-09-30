@@ -1,0 +1,160 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "Create Generic VPC"
+Parameters:
+  DefaultCIDR:
+    Description: "CIDR for allow in RouteTable, IGW "
+    Type: "String"
+    Default: 0.0.0.0/0
+
+  HTTPPort:
+    Description: "Allow in port from SecurityGroup"
+    Type: "Number"
+    Default: 80
+
+  SSHPort:
+    Description: "Allow in port from SecurityGroup"
+    Type: "Number"
+    Default: 22
+
+Mappings:
+  CIDR:
+    VPC:
+      "VPC1": "10.12.0.0/16"
+    Subnet:
+      "Public1": "10.12.1.0/24"
+      "Public2": "10.12.2.0/24"
+  
+  AvailabilityZone:
+    AZ:
+      "AZ1": "us-east-1a"
+      "AZ2": "us-east-1b"
+      "AZ3": "us-east-1c"
+      "AZ4": "us-east-1d"
+  NAME:
+    VPC:
+      "VPC1": "china-wall"
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !FindInMap [CIDR, VPC, VPC1]
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      InstanceTenancy: default
+      Tags: 
+        - Key: "Name"
+          Value: !FindInMap [NAME, VPC, VPC1]
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: "Name"
+        Value: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], igw] ]
+
+  AttachInternetGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  EIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+     
+  PublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !FindInMap [CIDR, Subnet, Public1]
+      AvailabilityZone: !FindInMap [AvailabilityZone, AZ, AZ1]
+      MapPublicIpOnLaunch: True
+      Tags:
+      - Key: "Name"
+        Value: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], PublicSubnet1] ]
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !FindInMap [CIDR, Subnet, Public2]
+      AvailabilityZone: !FindInMap [AvailabilityZone, AZ, AZ2]
+      MapPublicIpOnLaunch: True
+      Tags:
+      - Key: "Name"
+        Value: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], PublicSubnet2] ]
+
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+      - Key: "Name"
+        Value: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], public-rt] ] # Calling from Mapping
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: !Ref DefaultCIDR # Calling from Parameter
+      GatewayId: !Ref InternetGateway
+      RouteTableId: !Ref PublicRouteTable
+
+  PublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet1
+
+  PublicSubnet2RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Ref PublicSubnet2 
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], sg] ]
+      GroupDescription: Allow http to client host
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: !Ref SSHPort
+          ToPort: !Ref SSHPort
+          CidrIp: !Ref DefaultCIDR
+        - IpProtocol: tcp
+          FromPort: !Ref HTTPPort
+          ToPort: !Ref HTTPPort
+          CidrIp: !Ref DefaultCIDR
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 0
+          ToPort: 65535
+          CidrIp: !Ref DefaultCIDR
+      Tags:
+      - Key: "Name"
+        Value: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], sg] ]
+
+Outputs:
+  VPCID:
+    Value: !Ref VPC
+    Export:
+      Name: !Join [ "-", [ !FindInMap [NAME, VPC, VPC1], "VPCID" ] ]
+
+  PublicSubnet1:
+    Value: !Ref PublicSubnet1
+    Export:
+      Name: !Join [ "-", [ !FindInMap [NAME, VPC, VPC1], "PublicSubnet1" ] ]
+
+  PublicSubnet2:
+    Value: !Ref PublicSubnet2
+    Export:
+      Name: !Join [ "-", [ !FindInMap [NAME, VPC, VPC1], "PublicSubnet2" ] ]
+
+  SecurityGroup:
+    Value: !Ref SecurityGroup
+    Export:
+      Name: !Join [ '-', [!FindInMap [NAME, VPC, VPC1], sg] ]
+  
